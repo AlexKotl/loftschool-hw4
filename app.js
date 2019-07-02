@@ -8,6 +8,8 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+require('./db');
+
 // include middlewares
 const list = fs.readdirSync('./middlewares').sort();
 list.forEach(file => {
