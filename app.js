@@ -16,7 +16,7 @@ list.forEach(file => {
   app.use(require(`./middlewares/${file}`));
 });
 
-app.use('/', require('./router/index'));
+app.use('/api', require('./api/index'));
 
 app.listen(3000, () => {
   console.log('Server running on localhost:3000');
