@@ -17,6 +17,7 @@ list.forEach(file => {
 });
 
 app.use('/api', require('./api/index'));
+app.use('/', require('./router/index'));
 
 app.listen(3000, () => {
   console.log('Server running on localhost:3000');
