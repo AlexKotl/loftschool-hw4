@@ -1,19 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const usersCtrl = require('../controllers/users');
 
-const returnError = (err, res) => {
-  res.status(err.statusCode || 500).json({
-    message: err ? (err.message || err).toString() : "Internal Error"
-  });
-};
-
-router.use('/saveNewUser', (req, res) => {
+router.use('/saveNewUser', async (req, res) => {
   try {
+    const result = await usersCtrl.add({ ...req.body });
     res.json({
-      data: 'OK'
+      data: result
     });
   } catch (error) {
-    returnError(error);
+    res.errorHandler(error);
   }
 });
 
