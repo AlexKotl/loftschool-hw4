@@ -1,21 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const usersCtrl = require('../controllers/users');
+const users = require('./users');
 
-router.post('/saveNewUser', async (req, res) => {
-  try {
-    const result = await usersCtrl.add({ ...req.body });
-
-    res.json({
-      ...result,
-      password: '', // empty for security reason
-      access_token: '',
-      image: '',
-      permissionId: ''
-    });
-  } catch (error) {
-    res.errorHandler(error);
-  }
-});
+router.post('/saveNewUser', users.saveNewUser);
 
 module.exports = router;
