@@ -5,8 +5,9 @@ const app = express();
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+  type: '*/*' // parse all responces as frontend not passing proper content-type
+}));
 
 require('./db');
 
