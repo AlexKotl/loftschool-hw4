@@ -37,3 +37,12 @@ exports.add = ({ username, password, firstName, middleName, surName, permission 
     reject(error);
   }
 });
+
+exports.getAll = () => new Promise(async (resolve, reject) => {
+  try {
+    const result = await User.find();
+    resolve(result.map(user => filterUserFields(user)));
+  } catch (error) {
+    reject(error);
+  }
+});
