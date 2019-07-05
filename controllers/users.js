@@ -1,11 +1,17 @@
 const User = require('../models/user');
 
 const filterUserFields = user => {
-  delete user['password'];
-  return user;
+  return {
+    id: user.id,
+    username: user.username,
+    firstName: user.firstName,
+    middleName: user.middleName,
+    surName: user.surName,
+    permission: user.permission
+  };
 };
 
-exports.add = ({ username, password }) => new Promise(async (resolve, reject) => {
+exports.add = ({ username, password, firstName, middleName, surName, permission }) => new Promise(async (resolve, reject) => {
   try {
     // const { error, value } = Joi.validate({ username, email, password }, schema);
     // if (error) {
@@ -17,7 +23,11 @@ exports.add = ({ username, password }) => new Promise(async (resolve, reject) =>
 
     const newUser = new User({
       username,
-      password
+      password,
+      firstName,
+      middleName,
+      surName,
+      permission
     });
 
     const result = await newUser.save();
