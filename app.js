@@ -10,6 +10,7 @@ app.use(bodyParser.json({
 }));
 
 require('./db');
+require('./config/passport');
 
 // include middlewares
 const list = fs.readdirSync('./middlewares').sort();

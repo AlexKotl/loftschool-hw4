@@ -6,7 +6,7 @@ const secret = require('../config/config').secret;
 exports.login = async (req, res, done) => {
   passport.authenticate('local', { session: false }, (err, user, info) => {
     if (err) {
-      return next(err);
+      return done(err);
     }
     if (!user) {
       return res.json({
@@ -16,9 +16,11 @@ exports.login = async (req, res, done) => {
     if (user) {
       const payload = { id: user.id };
       const token = jwt.sign(payload, secret);
-      res.json({ err: false, token: token });
+      res.json({
+        token: token
+      });
     }
-  })(req, res, next);
+  })(req, res, done);
 };
 
 exports.authFromToken = async (req, res, done) => {
@@ -29,6 +31,7 @@ exports.saveNewUser = async (req, res) => {
   try {
     const result = await usersCtrl.add({ ...req.body });
     const token = jwt.sign({ id: result.id }, secret);
+    console.log('Token for registered user:', token);
 
     res.json({
       ...result,
