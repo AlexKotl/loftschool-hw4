@@ -2,6 +2,9 @@ const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+require('dotenv').config();
+
+const port = process.env.PORT || 3000;
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
@@ -19,8 +22,10 @@ list.forEach(file => {
 });
 
 app.use('/api', require('./api/index'));
+app.use('/socket.io', require('./chat/index'));
 app.use('/', require('./router/index'));
 
-app.listen(3000, () => {
-  console.log('Server running on localhost:3000');
+
+app.listen(port, () => {
+  console.log('Server running on localhost:' + port);
 });
