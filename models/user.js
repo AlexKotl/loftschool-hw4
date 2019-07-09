@@ -21,7 +21,7 @@ const schema = new mongoose.Schema({
     required: true
   },
   permission: {
-    type: Array
+    type: Object
   }
 });
 
