@@ -54,10 +54,6 @@ exports.updateUser = async (req, res, done) => {
   }
 };
 
-exports.deleteUser = async (req, res, done) => {
-  done();
-};
-
 exports.saveUserImage = async (req, res, done) => {
   done();
 };
