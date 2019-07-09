@@ -1,4 +1,10 @@
 const User = require('../models/user');
+const Joi = require('@hapi/joi');
+
+const schema = Joi.object().keys({
+  username: Joi.string().alphanum().min(3).max(30),
+  password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/)
+});
 
 const filterUserFields = user => {
   return {
@@ -13,13 +19,33 @@ const filterUserFields = user => {
 
 exports.add = ({ username, password, firstName, middleName, surName, permission }) => new Promise(async (resolve, reject) => {
   try {
-    // const { error, value } = Joi.validate({ username, email, password }, schema);
-    // if (error) {
-    //   return reject({
-    //     message: error,
-    //     statusCode: 400
-    //   });
-    // }
+    const { error } = Joi.validate({ username, password }, schema);
+    if (error) {
+      return reject({
+        message: error,
+        statusCode: 400
+      });
+    }
+
+    const newUser = new User({
+      username,
+      password,
+      firstName,
+      middleName,
+      surName,
+      permission
+    });
+
+    const result = await newUser.save();
+
+    resolve(filterUserFields(result));
+  } catch (error) {
+    reject(error);
+  }
+});
+
+exports.edit = (id, { firstName, middleName, surName, permission }) => new Promise(async (resolve, reject) => {
+  try {
 
     const newUser = new User({
       username,
