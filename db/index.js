@@ -1,9 +1,18 @@
 const mongoose = require('mongoose');
-const config = require('./config.json');
 
 mongoose.Promise = global.Promise;
 
-const connectionURL = `mongodb://${config.db.user}@${config.db.host}:${config.db.port}/${config.db.name}`;
+const config = {
+  host: process.env.DB_HOST || "localhost",
+  port: process.env.DB_PORT || "27017",
+  name: process.env.DB_NAME || "hw4",
+  user: process.env.DB_USER || "",
+  password: process.env.DB_PASS || ""
+};
+
+const connectionURL = `mongodb+srv://${config.user}:${config.password}@${config.host}/${config.name}`;
+console.log('connecting with', connectionURL);
+
 mongoose.set('useCreateIndex', true);
 
 mongoose.connect(connectionURL, { useNewUrlParser: true })
