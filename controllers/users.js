@@ -35,6 +35,7 @@ exports.add = ({ username, password, firstName, middleName, surName, permission 
       surName,
       permission
     });
+    newUser.setPassword(password);
 
     const result = await newUser.save();
 

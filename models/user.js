@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const schema = new mongoose.Schema({
   username: {
@@ -23,5 +24,13 @@ const schema = new mongoose.Schema({
     type: Array
   }
 });
+
+schema.methods.setPassword = function (password) {
+  this.password = bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+};
+
+schema.methods.validPassword = function (password) {
+  return bcrypt.compareSync(password, this.hash);
+};
 
 module.exports = mongoose.model('User', schema);
