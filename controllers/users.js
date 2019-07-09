@@ -47,16 +47,19 @@ exports.add = ({ username, password, firstName, middleName, surName, permission 
 exports.edit = (id, { firstName, middleName, surName, permission }) => new Promise(async (resolve, reject) => {
   try {
 
-    const newUser = new User({
-      username,
-      password,
+    const user = await User.findById(id);
+
+    if (!user) {
+      reject(new Error('No such user found'));
+    }
+
+    user.set({
       firstName,
       middleName,
       surName,
       permission
     });
-
-    const result = await newUser.save();
+    const result = await user.save();
 
     resolve(filterUserFields(result));
   } catch (error) {

@@ -35,7 +35,12 @@ exports.getUsers = async (req, res) => {
 };
 
 exports.updateUser = async (req, res, done) => {
-  done();
+  try {
+    const result = await usersCtrl.edit(req.params.id, { ...req.body });
+    res.json(result);
+  } catch (error) {
+    res.errorHandler(error);
+  }
 };
 
 exports.deleteUser = async (req, res, done) => {
