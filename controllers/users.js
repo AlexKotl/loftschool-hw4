@@ -67,6 +67,16 @@ exports.edit = (id, { firstName, middleName, surName, permission }) => new Promi
   }
 });
 
+exports.delete = (id) => new Promise(async (resolve, reject) => {
+  try {
+    await User.findByIdAndRemove(id);
+
+    resolve(true);
+  } catch (error) {
+    reject(error);
+  }
+});
+
 exports.getAll = () => new Promise(async (resolve, reject) => {
   try {
     const result = await User.find();

@@ -24,6 +24,17 @@ exports.saveNewUser = async (req, res) => {
   }
 };
 
+exports.deleteUser = async (req, res) => {
+  try {
+    await usersCtrl.delete(req.params.id);
+    res.json({
+      message: 'User deleted'
+    });
+  } catch (error) {
+    res.errorHandler(error);
+  }
+};
+
 exports.getUsers = async (req, res) => {
   try {
     const result = await usersCtrl.getAll();
