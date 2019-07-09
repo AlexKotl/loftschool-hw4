@@ -30,7 +30,7 @@ schema.methods.setPassword = function (password) {
 };
 
 schema.methods.validPassword = function (password) {
-  return bcrypt.compareSync(password, this.hash);
+  return bcrypt.compareSync(password, this.password);
 };
 
 module.exports = mongoose.model('User', schema);
