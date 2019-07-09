@@ -17,7 +17,8 @@ exports.login = async (req, res, done) => {
       const payload = { id: user.id };
       const token = jwt.sign(payload, secret);
       res.json({
-        token: token
+        ...usersCtrl.filterUserFields(user),
+        access_token: token
       });
     }
   })(req, res, done);

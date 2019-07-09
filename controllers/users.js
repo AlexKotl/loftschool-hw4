@@ -6,7 +6,7 @@ const schema = Joi.object().keys({
   password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/)
 });
 
-const filterUserFields = user => {
+exports.filterUserFields = user => {
   return {
     id: user.id,
     username: user.username,
@@ -39,7 +39,7 @@ exports.add = ({ username, password, firstName, middleName, surName, permission 
 
     const result = await newUser.save();
 
-    resolve(filterUserFields(result));
+    resolve(exports.filterUserFields(result));
   } catch (error) {
     reject(error);
   }
@@ -62,7 +62,7 @@ exports.edit = (id, { firstName, middleName, surName, permission }) => new Promi
     });
     const result = await user.save();
 
-    resolve(filterUserFields(result));
+    resolve(exports.filterUserFields(result));
   } catch (error) {
     reject(error);
   }
@@ -81,7 +81,7 @@ exports.delete = (id) => new Promise(async (resolve, reject) => {
 exports.getAll = () => new Promise(async (resolve, reject) => {
   try {
     const result = await User.find();
-    resolve(result.map(user => filterUserFields(user)));
+    resolve(result.map(user => exports.filterUserFields(user)));
   } catch (error) {
     reject(error);
   }
