@@ -1,4 +1,6 @@
 const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+const secret = require('../config/config').secret;
 const Joi = require('@hapi/joi');
 
 const schema = Joi.object().keys({
@@ -7,13 +9,16 @@ const schema = Joi.object().keys({
 });
 
 exports.filterUserFields = user => {
+  const token = jwt.sign({ id: user.id }, secret);
+
   return {
     id: user.id,
     username: user.username,
     firstName: user.firstName,
     middleName: user.middleName,
     surName: user.surName,
-    permission: user.permission
+    permission: user.permission,
+    access_token: token
   };
 };
 
@@ -33,13 +38,21 @@ exports.add = ({ username, password, firstName, middleName, surName, permission 
       firstName,
       middleName,
       surName,
-      permission
+      permission,
+      token: ''
     });
     newUser.setPassword(password);
 
     const result = await newUser.save();
+    const filteredResults = exports.filterUserFields(result);
 
-    resolve(exports.filterUserFields(result));
+    // save token in database
+    newUser.set({
+      token: filteredResults.access_token
+    });
+    await newUser.save();
+
+    resolve(filteredResults);
   } catch (error) {
     reject(error);
   }

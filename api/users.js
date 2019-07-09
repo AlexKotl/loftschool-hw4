@@ -1,7 +1,5 @@
 const usersCtrl = require('../controllers/users');
 const passport = require('passport');
-const jwt = require('jsonwebtoken');
-const secret = require('../config/config').secret;
 
 exports.login = async (req, res, done) => {
   passport.authenticate('local', { session: false }, (err, user, info) => {
@@ -14,12 +12,7 @@ exports.login = async (req, res, done) => {
       });
     }
     if (user) {
-      const payload = { id: user.id };
-      const token = jwt.sign(payload, secret);
-      res.json({
-        ...usersCtrl.filterUserFields(user),
-        access_token: token
-      });
+      res.json(usersCtrl.filterUserFields(user));
     }
   })(req, res, done);
 };
@@ -31,13 +24,11 @@ exports.authFromToken = async (req, res, done) => {
 exports.saveNewUser = async (req, res) => {
   try {
     const result = await usersCtrl.add({ ...req.body });
-    const token = jwt.sign({ id: result.id }, secret);
-    console.log('Token for registered user:', token);
+    console.log('Token for registered user:', result.access_token);
 
     res.json({
       ...result,
       password: '', // empty for security reason
-      access_token: token,
       image: '',
       permissionId: ''
     });

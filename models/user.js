@@ -22,6 +22,9 @@ const schema = new mongoose.Schema({
   },
   permission: {
     type: Object
+  },
+  token: {
+    type: String
   }
 });
 
