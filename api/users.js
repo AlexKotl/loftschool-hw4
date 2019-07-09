@@ -1,5 +1,13 @@
 const usersCtrl = require('../controllers/users');
 
+exports.login = async (req, res, done) => {
+  done();
+};
+
+exports.authFromToken = async (req, res, done) => {
+  done();
+};
+
 exports.saveNewUser = async (req, res) => {
   try {
     const result = await usersCtrl.add({ ...req.body });
@@ -24,4 +32,20 @@ exports.getUsers = async (req, res) => {
   } catch (error) {
     res.errorHandler(error);
   }
+};
+
+exports.updateUser = async (req, res, done) => {
+  done();
+};
+
+exports.deleteUser = async (req, res, done) => {
+  done();
+};
+
+exports.saveUserImage = async (req, res, done) => {
+  done();
+};
+
+exports.updateUserPermission = async (req, res, done) => {
+  done();
 };
