@@ -18,7 +18,12 @@ exports.login = async (req, res, done) => {
 };
 
 exports.authFromToken = async (req, res, done) => {
-  done();
+  try {
+    const result = await usersCtrl.getByToken(req.body.token);
+    res.json(result);
+  } catch (error) {
+    res.errorHandler(error);
+  }
 };
 
 exports.saveNewUser = async (req, res) => {

@@ -26,10 +26,7 @@ exports.add = ({ username, password, firstName, middleName, surName, permission 
   try {
     const { error } = Joi.validate({ username, password }, schema);
     if (error) {
-      return reject({
-        message: error,
-        statusCode: 400
-      });
+      return reject(error);
     }
 
     const newUser = new User({
@@ -95,6 +92,15 @@ exports.getAll = () => new Promise(async (resolve, reject) => {
   try {
     const result = await User.find();
     resolve(result.map(user => exports.filterUserFields(user)));
+  } catch (error) {
+    reject(error);
+  }
+});
+
+exports.getByToken = token => new Promise(async (resolve, reject) => {
+  try {
+    const result = await User.findOne({ token: token });
+    resolve(exports.filterUserFields(result));
   } catch (error) {
     reject(error);
   }
