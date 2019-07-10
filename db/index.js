@@ -7,10 +7,11 @@ const config = {
   port: process.env.DB_PORT || "27017",
   name: process.env.DB_NAME || "hw4",
   user: process.env.DB_USER || "",
-  password: process.env.DB_PASS || ""
+  password: process.env.DB_PASS || "",
+  protocol: process.env.DB_PROT || 'mongodb+srv'
 };
 
-const connectionURL = `mongodb+srv://${config.user}:${config.password}@${config.host}/${config.name}`;
+const connectionURL = `${config.protocol}://${config.user}${config.password}@${config.host}/${config.name}`;
 console.log('connecting with', connectionURL);
 
 mongoose.set('useCreateIndex', true);
