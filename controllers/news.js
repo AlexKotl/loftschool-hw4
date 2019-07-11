@@ -21,7 +21,6 @@ exports.delete = (id) => new Promise(async (resolve, reject) => {
 
 exports.add = ({ text, theme }) => new Promise(async (resolve, reject) => {
   try {
-
     const newNews = new New({
       text,
       theme,
@@ -38,7 +37,6 @@ exports.add = ({ text, theme }) => new Promise(async (resolve, reject) => {
 
 exports.edit = (id, { text, theme }) => new Promise(async (resolve, reject) => {
   try {
-
     const news = await New.findById(id);
 
     if (!news) {
