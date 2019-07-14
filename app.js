@@ -18,7 +18,6 @@ list.forEach(file => {
 });
 
 app.use('/api', require('./api/index'));
-//app.use('/socket.io', require('./chat/index'));
 app.use('/', require('./router/index'));
 
 const server = app.listen(port, () => {

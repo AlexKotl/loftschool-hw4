@@ -57,20 +57,18 @@ exports.add = ({ username, password, firstName, middleName, surName, permission 
 
 exports.edit = (id, { firstName, middleName, surName, permission }) => new Promise(async (resolve, reject) => {
   try {
-
     const user = await User.findById(id);
 
     if (!user) {
       reject(new Error('No such user found'));
     }
 
-    user.set({
-      firstName,
-      middleName,
-      surName,
-      permission
+    //user.set();
+    const result = await user.update({
+      firstName: firstName || user.firstName,
+      middleName: middleName || user.middleName,
+      surName: surName || user.surName
     });
-    const result = await user.save();
 
     resolve(exports.filterUserFields(result));
   } catch (error) {
