@@ -18,10 +18,10 @@ list.forEach(file => {
 });
 
 app.use('/api', require('./api/index'));
-app.use('/socket.io', require('./chat/index'));
+//app.use('/socket.io', require('./chat/index'));
 app.use('/', require('./router/index'));
 
-
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log('Server running on localhost:' + port);
 });
+require('./chat')(server);
