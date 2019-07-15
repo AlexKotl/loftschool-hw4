@@ -108,7 +108,7 @@ exports.getByToken = token => new Promise(async (resolve, reject) => {
 exports.uploadImage = (id, file) => new Promise(async (resolve, reject) => {
   console.log('uploading image', id, file);
 
-  const dir = path.join('.','public', 'assets', 'photos');
+  const dir = path.join('.', 'public', 'assets', 'photos');
 
   if (!fs.existsSync(dir)) {
     console.log('creating upload dir', dir);
