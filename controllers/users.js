@@ -2,6 +2,8 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const secret = require('../config/config').secret;
 const Joi = require('@hapi/joi');
+const fs = require('fs');
+const path = require('path');
 
 const schema = Joi.object().keys({
   username: Joi.string().alphanum().min(3).max(30),
@@ -63,7 +65,6 @@ exports.edit = (id, { firstName, middleName, surName, permission }) => new Promi
       reject(new Error('No such user found'));
     }
 
-    //user.set();
     const result = await user.update({
       firstName: firstName || user.firstName,
       middleName: middleName || user.middleName,
@@ -102,4 +103,25 @@ exports.getByToken = token => new Promise(async (resolve, reject) => {
   } catch (error) {
     reject(error);
   }
+});
+
+exports.uploadImage = (id, file) => new Promise(async (resolve, reject) => {
+  console.log('uploading image', id, file);
+
+  const dir = path.join('.','public', 'assets', 'photos');
+
+  if (!fs.existsSync(dir)) {
+    console.log('creating upload dir', dir);
+    fs.mkdirSync(dir);
+  }
+
+  file.mv(path.join(dir, id + '.jpg'), (err) => {
+    if (err) {
+      reject(new Error(err));
+    }
+
+    resolve({
+      'path': 'assets/photos/' + id + '.jpg'
+    });
+  });
 });

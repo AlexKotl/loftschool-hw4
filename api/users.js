@@ -73,7 +73,12 @@ exports.updateUser = async (req, res, done) => {
 };
 
 exports.saveUserImage = async (req, res, done) => {
-  done();
+  try {
+    const result = await usersCtrl.uploadImage(req.params.id, req.files[req.params.id]);
+    res.json(result);
+  } catch (error) {
+    res.errorHandler(error);
+  }
 };
 
 exports.updateUserPermission = async (req, res, done) => {
